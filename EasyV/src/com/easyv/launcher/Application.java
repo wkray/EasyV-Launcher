@@ -1,40 +1,44 @@
 package com.easyv.launcher;
 
-import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.ComponentOrientation;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.Iterator;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JMenuBar;
-import javax.swing.border.MatteBorder;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Rectangle;
-import java.awt.Component;
-import javax.swing.JScrollPane;
-import java.awt.GridBagLayout;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import java.awt.FlowLayout;
-import java.awt.ComponentOrientation;
+import javax.swing.JCheckBox;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import java.awt.Font;
-import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.UIManager;
+import javax.swing.border.MatteBorder;
+import javax.swing.filechooser.FileSystemView;
 
 public class Application extends JFrame {
 
 	private JPanel contentPane;
-
+	public File GTADirectory;
+	private SettingsWindow window;
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -62,6 +66,17 @@ public class Application extends JFrame {
 		menuBar.add(mnPreferences);
 		
 		JMenuItem mntmSettings = new JMenuItem("Settings");
+		mntmSettings.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(window != null){
+					window.setVisible(true);
+				}
+				else{
+					window = new SettingsWindow();
+					window.setVisible(true);
+				}
+			}
+		});
 		mnPreferences.add(mntmSettings);
 		
 		JMenu mnHelp = new JMenu("Help");
@@ -106,7 +121,7 @@ public class Application extends JFrame {
 		infoPane.addTab("Console", null, consolePane, null);
 		consolePane.setBorder(null);
 		
-		JScrollPane installedModsPane = new JScrollPane();
+		JScrollPane installedModsPane = new JScrollPane(getModList());
 		installedModsPane.setRequestFocusEnabled(false);
 		installedModsPane.setViewportBorder(null);
 		installedModsPane.setBorder(null);
@@ -122,5 +137,18 @@ public class Application extends JFrame {
 		keybindingPane.setBorder(null);
 		modListPane.addTab("Keybindings", null, keybindingPane, null);
 		contentPane.setLayout(gl_contentPane);
+	}
+	
+	private JPanel getModList(){
+		JPanel pane = new JPanel();
+		pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
+		ModList list1 = new ModList();
+		JCheckBox[] boxes = new JCheckBox[list1.getModNames().size()];
+		Iterator<String>it = list1.getModNames().iterator();
+		for(int i = 0; i < boxes.length; i++){
+			boxes[i] = new JCheckBox(it.next());
+			pane.add(boxes[i]);
+		}
+		return pane;
 	}
 }

@@ -22,14 +22,13 @@ public class ModList {
 		
 		for (File file : files) {
 			if (file.isDirectory()) {
-				modFiles.put(file.getName(), new ArrayList<File>(Arrays.asList(file.listFiles(new FileFilter() {
+				FileFilter filter = new FileFilter() {
 					@Override
 					public boolean accept(File pathname) {
 						return pathname.getName().endsWith(".asi") || pathname.getName().endsWith(".dll");
 					}
-				}))));
-				System.out.println(file.getName());
-			
+				};
+				modFiles.put(file.getName(), new ArrayList<File>(Arrays.asList(file.listFiles(filter))));
 			}
 		}
 	}
