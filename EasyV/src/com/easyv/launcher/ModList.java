@@ -19,6 +19,7 @@ public class ModList {
 		File f = new File("." + File.separator + "mods");
 		f.mkdirs();
 		File[] files = f.listFiles();
+		
 		for (File file : files) {
 			if (file.isDirectory()) {
 				modFiles.put(file.getName(), new ArrayList<File>(Arrays.asList(file.listFiles(new FileFilter() {

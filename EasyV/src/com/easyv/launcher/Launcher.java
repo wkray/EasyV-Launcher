@@ -14,32 +14,33 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 
-public class Window extends JFrame {
+public class Launcher extends JFrame {
 	
-	public static final String VERSION = "InDev";
+	public static final String VERSION = "indev";
 	private JPanel modInfoPanel;
 	private JScrollPane modListPanel;
 	
 	public static void main(String[] args) {
-		Window window = new Window();
-		window.setVisible(true);
+		Launcher launcher = new Launcher();
+		launcher.setVisible(true);
 	}
 	
-	public Window(){
+	public Launcher(){
 		super("EasyV Launcher v" + VERSION);
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new GridBagLayout());
 		setSize(1000, 600);
-		setupWindow();
+		setupLauncher();
 		ModList list = new ModList();
 	}
 
-	private void setupWindow() {
+	private void setupLauncher() {
 		setupMenu();
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.anchor = GridBagConstraints.WEST;
@@ -49,7 +50,7 @@ public class Window extends JFrame {
 		gbc.fill = GridBagConstraints.BOTH;
 		add(getModListPanel(), gbc);
 		gbc.weightx = .75;
-		add(getModInfoPanel(), gbc);
+		//add(getModInfoPanel(), gbc);
 	}
 	
 	
