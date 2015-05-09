@@ -15,6 +15,10 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.border.EtchedBorder;
+import java.awt.Choice;
+import javax.swing.JScrollPane;
+import javax.swing.JTree;
 
 public class SettingsWindow extends JFrame {
 	private File GTADirectory;
@@ -22,12 +26,12 @@ public class SettingsWindow extends JFrame {
 
 	public SettingsWindow() {
 		super("Settings");
-		setSize(422, 272);
+		setSize(500, 375);
 		
 		JLabel lblGtaDirectory = new JLabel("GTA Directory:");
 		
 		installDirectory = new JTextField();
-		installDirectory.setBorder(null);
+		installDirectory.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		installDirectory.setToolTipText("GTA V Installation Directory");
 		installDirectory.setColumns(10);
 		
@@ -37,28 +41,37 @@ public class SettingsWindow extends JFrame {
 				askForInstallLocation();
 			}
 		});
+		
+		JScrollPane scrollPane = new JScrollPane();
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
+				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
 					.addContainerGap()
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(lblGtaDirectory)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(installDirectory, GroupLayout.PREFERRED_SIZE, 224, GroupLayout.PREFERRED_SIZE)
+					.addComponent(installDirectory, GroupLayout.PREFERRED_SIZE, 162, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnBrowse)
-					.addContainerGap(284, Short.MAX_VALUE))
+					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblGtaDirectory)
-						.addComponent(installDirectory, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnBrowse))
-					.addContainerGap(496, Short.MAX_VALUE))
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
+						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+							.addComponent(installDirectory, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
+							.addComponent(btnBrowse)
+							.addComponent(lblGtaDirectory)))
+					.addContainerGap())
 		);
+		
+		JTree tree = new JTree();
+		scrollPane.setColumnHeaderView(tree);
 		getContentPane().setLayout(groupLayout);
 		addWindowListener(new WindowAdapter() {
 			@Override

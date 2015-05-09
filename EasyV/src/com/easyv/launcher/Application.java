@@ -24,6 +24,9 @@ import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 import javax.swing.border.MatteBorder;
 import javax.swing.filechooser.FileSystemView;
+import javax.swing.ScrollPaneConstants;
+import java.awt.Dimension;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class Application extends JFrame {
 
@@ -55,6 +58,8 @@ public class Application extends JFrame {
 	 * Create the frame.
 	 */
 	public Application() {
+		setTitle("EasyV Launcher");
+		setMinimumSize(new Dimension(440, 300));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 450);
 		
@@ -89,12 +94,16 @@ public class Application extends JFrame {
 		setContentPane(contentPane);
 		
 		JTabbedPane modListPane = new JTabbedPane(JTabbedPane.TOP);
+		modListPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+		modListPane.setMinimumSize(new Dimension(150, 150));
 		modListPane.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		modListPane.setFocusable(false);
 		modListPane.setFont(new Font("Tahoma", Font.BOLD, 9));
 		modListPane.setBorder(null);
 		
 		JTabbedPane infoPane = new JTabbedPane(JTabbedPane.TOP);
+		infoPane.setMinimumSize(new Dimension(250, 150));
+		infoPane.setBorder(null);
 		infoPane.setFocusable(false);
 		infoPane.setFont(new Font("Tahoma", Font.BOLD, 9));
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
@@ -102,10 +111,10 @@ public class Application extends JFrame {
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(modListPane, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(infoPane, GroupLayout.PREFERRED_SIZE, 461, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addComponent(modListPane, GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
+					.addGap(6)
+					.addComponent(infoPane, GroupLayout.DEFAULT_SIZE, 506, Short.MAX_VALUE)
+					.addGap(20))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -113,25 +122,26 @@ public class Application extends JFrame {
 					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addComponent(infoPane, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)
-						.addComponent(modListPane, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE))
+						.addComponent(modListPane, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		
 		JScrollPane consolePane = new JScrollPane();
+		consolePane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		infoPane.addTab("Console", null, consolePane, null);
 		consolePane.setBorder(null);
 		
-		JScrollPane installedModsPane = new JScrollPane(getModList());
-		installedModsPane.setRequestFocusEnabled(false);
-		installedModsPane.setViewportBorder(null);
-		installedModsPane.setBorder(null);
-		modListPane.addTab("Installed Mods", null, installedModsPane, null);
+		JScrollPane activeModsPane = new JScrollPane(getModList());
+		activeModsPane.setRequestFocusEnabled(false);
+		activeModsPane.setViewportBorder(null);
+		activeModsPane.setBorder(null);
+		modListPane.addTab("Active Mods", null, activeModsPane, null);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setFocusable(false);
-		scrollPane.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-		scrollPane.setBorder(null);
-		modListPane.addTab("Download Mods", null, scrollPane, null);
+		JScrollPane downloadModsPane = new JScrollPane();
+		downloadModsPane.setFocusable(false);
+		downloadModsPane.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+		downloadModsPane.setBorder(null);
+		modListPane.addTab("Download Mods", null, downloadModsPane, null);
 		
 		JScrollPane keybindingPane = new JScrollPane();
 		keybindingPane.setBorder(null);
